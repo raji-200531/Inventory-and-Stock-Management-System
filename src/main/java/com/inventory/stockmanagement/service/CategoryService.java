@@ -1,1 +1,0 @@
-package com.inventory.stockmanagement.service; import com.inventory.stockmanagement.model.product.Category; import java.util.List; public interface CategoryService { List<Category> findAll(); List<Category> search(String q); Category findById(Long id); Category save(Category c); void delete(Long id); }
