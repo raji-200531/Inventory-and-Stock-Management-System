@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register – Inventory Stock Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container login-box">
+    <div class="card">
+        <h1>Inventory Stock Management</h1>
+        <p class="footer-note">Create a new staff account</p>
+
+        <div class="alert error" th:if="${error}" th:text="${error}"></div>
+        <div class="alert success" th:if="${param.registered}">Registration successful! Please log in.</div>
+
+        <form th:action="@{/register}" method="post">
+            <div class="form-grid">
+                <label>Full Name
+                    <input type="text" name="name" th:value="${name}" placeholder="e.g. Kamal Perera" required>
+                </label>
+                <label>Username
+                    <input type="text" name="username" th:value="${username}" placeholder="e.g. kamal123" required>
+                </label>
+                <label>Email <span style="font-weight:400;color:var(--muted)">(optional)</span>
+                    <input type="email" name="email" th:value="${email}" placeholder="e.g. kamal@example.com">
+                </label>
+                <label>Phone <span style="font-weight:400;color:var(--muted)">(optional)</span>
+                    <input type="tel" name="phone" th:value="${phone}" placeholder="e.g. 0711234567">
+                </label>
+                <label>Password
+                    <input type="password" name="password" placeholder="Min 6 characters" required>
+                </label>
+                <label>Confirm Password
+                    <input type="password" name="confirmPassword" placeholder="Repeat password" required>
+                </label>
+            </div>
+            <button class="btn" type="submit" style="width:100%;margin-top:16px">Create Account</button>
+        </form>
+
+        <p class="footer-note" style="text-align:center;margin-top:16px">
+            Already have an account? <a th:href="@{/login}">Login here</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>

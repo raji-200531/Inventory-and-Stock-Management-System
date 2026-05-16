@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Login</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div class="container login-box"><div class="card">
+<h1>Inventory Stock Management</h1>
+<p class="footer-note">Spring Boot MVC + File Read/Write Storage</p>
+<div class="alert error" th:if="${error}" th:text="${error}"></div>
+<div class="alert success" th:if="${param.logout}">Logged out successfully.</div>
+<form th:action="@{/login}" method="post">
+<label>Username <input type="text" name="username" placeholder="admin" required></label>
+<label>Password <input type="password" name="password" placeholder="admin123" required></label>
+<button class="btn" type="submit">Login</button>
+</form>
+<p class="footer-note"><b>Admin:</b> admin / admin123<br><b>Staff:</b> staff / staff123</p>
+<p class="footer-note" style="text-align:center;margin-top:12px">Don't have an account? <a th:href="@{/register}">Register here</a></p>
+</div></div></body></html>

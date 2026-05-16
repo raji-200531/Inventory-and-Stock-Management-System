@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="navbar">
+    <div><a class="brand" th:href="@{/dashboard}">Inventory Stock Management</a></div>
+    <div>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/suppliers}">Suppliers</a>
+        <a th:href="@{/stock-in}">Stock In</a>
+        <a th:href="@{/stock-out}">Stock Out</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/report}">Report</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="alert success" th:if="${success}" th:text="${success}"></div>
+    <div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
+
+    <div class="card"><h1>User & Role Management</h1>
+        <div class="actions"><a class="btn" th:href="@{/users/add}">Add User</a>
+            <form th:action="@{/users}" method="get" class="actions"><input type="text" name="q" th:value="${q}"
+                                                                            placeholder="Search users">
+                <button class="btn secondary">Search</button>
+            </form>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Access Level</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u:${users}">
+                <td th:text="${u.id}"></td>
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.username}"></td>
+                <td><span class="badge" th:text="${u.role}"></span></td>
+                <td th:text="${u.accessLevel}"></td>
+                <td th:text="${u.email}"></td>
+                <td><a class="btn light" th:href="@{/users/edit/{id}(id=${u.id})}">Edit</a>
+                    <form class="inline-form" th:action="@{/users/delete/{id}(id=${u.id})}" method="post"
+                          onsubmit="return confirmDelete()">
+                        <button class="btn danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Supplier</title><link rel="stylesheet" th:href="@{/css/style.css}"><script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="navbar">
+    <div><a class="brand" th:href="@{/dashboard}">Inventory Stock Management</a></div>
+    <div>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/suppliers}">Suppliers</a>
+        <a th:href="@{/stock-in}">Stock In</a>
+        <a th:href="@{/stock-out}">Stock Out</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/report}">Report</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="container">
+<div class="alert success" th:if="${success}" th:text="${success}"></div>
+<div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
+<div class="card"><h1>Add Supplier</h1><form th:action="@{/suppliers/add}" th:object="${supplier}" method="post"><div class="form-grid"><label>Company Name <input type="text" th:field="*{companyName}" required></label><label>Contact Person <input type="text" th:field="*{name}" required></label><label>Email <input type="email" th:field="*{email}"></label><label>Phone <input type="text" th:field="*{phone}"></label></div><label>Address <textarea th:field="*{address}" rows="3"></textarea></label><label>Status <select th:field="*{active}"><option th:value="true">Active</option><option th:value="false">Inactive</option></select></label><button class="btn">Save</button> <a class="btn light" th:href="@{/suppliers}">Back</a></form></div>
+</div></body></html>
