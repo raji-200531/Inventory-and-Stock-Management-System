@@ -1,0 +1,1 @@
+package com.inventory.stockmanagement.service; import com.inventory.stockmanagement.model.product.Product; import java.util.List; public interface ProductService { List<Product> findAll(); List<Product> search(String q); List<Product> findLowStockProducts(); Product findById(Long id); Product save(Product p); Product saveWithoutAudit(Product p); void delete(Long id); }
