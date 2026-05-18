@@ -23,7 +23,7 @@
 <div class="alert success" th:if="${success}" th:text="${success}"></div>
 <div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
 
-<div class="card"><h1>Supplier Management</h1><div class="actions"><a class="btn" th:href="@{/suppliers/add}">Add Supplier</a><form th:action="@{/suppliers}" method="get" class="actions"><input type="text" name="q" th:value="${q}" placeholder="Search suppliers"><button class="btn secondary">Search</button></form></div>
+<div class="card"><h1>Supplier Management</h1><div class="actions"><a class="btn" th:href="@{/suppliers/add}">Add Supplier</a><form th:action="@{/suppliers}" method="get" class="search-form"><input type="text" name="q" th:value="${q}" placeholder="Search suppliers"><button class="btn secondary">Search</button></form></div>
 <table><thead><tr><th>ID</th><th>Company</th><th>Contact</th><th>Email</th><th>Phone</th><th>Actions</th></tr></thead><tbody><tr th:each="s:${suppliers}"><td th:text="${s.id}"></td><td th:text="${s.companyName}"></td><td th:text="${s.name}"></td><td th:text="${s.email}"></td><td th:text="${s.phone}"></td><td><a class="btn light" th:href="@{/suppliers/edit/{id}(id=${s.id})}">Edit</a> <form class="inline-form" th:action="@{/suppliers/delete/{id}(id=${s.id})}" method="post" onsubmit="return confirmDelete()"><button class="btn danger">Delete</button></form></td></tr></tbody></table></div>
 
 </div></body></html>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add User</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/main.js}"></script>
 </head>
 <body>
 <div class="navbar">
@@ -24,25 +23,102 @@
 </div>
 <div class="container">
     <div class="alert success" th:if="${success}" th:text="${success}"></div>
-    <div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
-    <div class="card"><h1>Add User</h1>
-        <form th:action="@{/users/add}" th:object="${userAccount}" method="post">
-            <div class="form-grid"><label>Name <input type="text" th:field="*{name}" required></label><label>Username
-                <input type="text" th:field="*{username}" required></label><label>Password <input type="text"
-                                                                                                  th:field="*{password}"
-                                                                                                  required></label><label>Role
-                <select th:field="*{role}">
-                    <option th:each="r:${roles}" th:value="${r}" th:text="${r}"></option>
-                </select></label><label>Email <input type="email" th:field="*{email}"></label><label>Phone <input
-                    type="text" th:field="*{phone}"></label></div>
-            <label>Address <textarea th:field="*{address}" rows="3"></textarea></label><label>Status <select
-                th:field="*{active}">
-            <option th:value="true">Active</option>
-            <option th:value="false">Inactive</option>
-        </select></label>
-            <button class="btn">Save</button>
-            <a class="btn light" th:href="@{/users}">Back</a></form>
+    <div class="alert error"   th:if="${error}"   th:text="${error}"></div>
+    <div class="card">
+        <h1>Add User</h1>
+        <form th:action="@{/users/add}" th:object="${userAccount}" method="post"
+              id="addUserForm" onsubmit="return validateUserForm('add')">
+
+            <div class="form-grid">
+                <label>Name
+                    <input type="text" th:field="*{name}" id="add-name"
+                           placeholder="e.g. Kamal Perera" required>
+                </label>
+                <label>Username
+                    <input type="text" th:field="*{username}" id="add-username"
+                           placeholder="e.g. kamal123" required minlength="3">
+                </label>
+                <label>Password
+                    <input type="password" th:field="*{password}" id="add-password"
+                           placeholder="Min 6 characters" required minlength="6">
+                </label>
+                <label>Role
+                    <select th:field="*{role}">
+                        <option th:each="r:${roles}" th:value="${r}" th:text="${r}"></option>
+                    </select>
+                </label>
+                <label>Email
+                    <input type="email" th:field="*{email}" id="add-email"
+                           placeholder="e.g. kamal@example.com">
+                </label>
+                <label>Phone
+                    <input type="tel" th:field="*{phone}" id="add-phone"
+                           placeholder="e.g. 0711234567">
+                </label>
+            </div>
+
+            <label>Address
+                <textarea th:field="*{address}" rows="3" placeholder="e.g. 123 Main St, Colombo"></textarea>
+            </label>
+            <label>Status
+                <select th:field="*{active}">
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </label>
+
+            <div class="alert error" id="add-user-error" style="display:none"></div>
+
+            <div class="actions" style="margin-top:6px">
+                <button class="btn" type="submit">Save</button>
+                <a class="btn light" th:href="@{/users}">Back</a>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+function validateUserForm(mode) {
+    var prefix   = mode === 'add' ? 'add' : 'edit';
+    var errBox   = document.getElementById(prefix + '-user-error');
+    errBox.style.display = 'none';
+
+    var name     = document.getElementById(prefix + '-name').value.trim();
+    var username = document.getElementById(prefix + '-username').value.trim();
+    var email    = document.getElementById(prefix + '-email').value.trim();
+    var phone    = document.getElementById(prefix + '-phone').value.trim();
+    var pwdEl    = document.getElementById(prefix + '-password');
+    var pwd      = pwdEl ? pwdEl.value : '';
+
+    function showErr(msg) {
+        errBox.textContent = msg;
+        errBox.style.display = 'block';
+        return false;
+    }
+
+    if (name.length < 2)
+        return showErr('Name must be at least 2 characters.');
+
+    if (username.length < 3)
+        return showErr('Username must be at least 3 characters.');
+
+    if (!/^[a-zA-Z0-9_]+$/.test(username))
+        return showErr('Username may only contain letters, numbers and underscores.');
+
+    if (pwdEl && pwd.length > 0 && pwd.length < 6)
+        return showErr('Password must be at least 6 characters.');
+
+    if (mode === 'add' && pwd.length === 0)
+        return showErr('Password is required.');
+
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        return showErr('Please enter a valid email address.');
+
+    if (phone && !/^[0-9]{10}$/.test(phone))
+        return showErr('Phone number must be exactly 10 digits.');
+
+    return true;
+}
+</script>
 </body>
 </html>

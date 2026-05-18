@@ -23,7 +23,7 @@
 <div class="alert success" th:if="${success}" th:text="${success}"></div>
 <div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
 
-<div class="card"><h1>Category Management</h1><div class="actions"><a class="btn" th:href="@{/categories/add}">Add Category</a><form th:action="@{/categories}" method="get" class="actions"><input type="text" name="q" th:value="${q}" placeholder="Search categories"><button class="btn secondary" type="submit">Search</button></form></div>
+<div class="card"><h1>Category Management</h1><div class="actions"><a class="btn" th:href="@{/categories/add}">Add Category</a><form th:action="@{/categories}" method="get" class="search-form"><input type="text" name="q" th:value="${q}" placeholder="Search categories"><button class="btn secondary" type="submit">Search</button></form></div>
 <table><thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Status</th><th>Actions</th></tr></thead><tbody><tr th:each="c:${categories}"><td th:text="${c.id}"></td><td th:text="${c.name}"></td><td th:text="${c.description}"></td><td><span class="badge" th:text="${c.active ? 'Active':'Inactive'}"></span></td><td><a class="btn light" th:href="@{/categories/edit/{id}(id=${c.id})}">Edit</a> <form class="inline-form" th:action="@{/categories/delete/{id}(id=${c.id})}" method="post" onsubmit="return confirmDelete()"><button class="btn danger">Delete</button></form></td></tr></tbody></table></div>
 
 </div></body></html>
