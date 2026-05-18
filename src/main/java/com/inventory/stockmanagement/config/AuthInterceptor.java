@@ -12,7 +12,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
         String path = req.getRequestURI();
-        if (path.equals("/login") || path.startsWith("/css/") || path.startsWith("/js/") || path.startsWith("/images/") || path.equals("/favicon.ico"))
+        if (path.equals("/login") || path.equals("/register") || path.startsWith("/css/") || path.startsWith("/js/") || path.startsWith("/images/") || path.equals("/favicon.ico"))
             return true;
         UserAccount user = (UserAccount) req.getSession().getAttribute("loggedUser");
         if (user == null) {
