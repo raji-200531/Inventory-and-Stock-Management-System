@@ -21,7 +21,7 @@ public abstract class StockTransaction extends BaseEntity {
         this.note = note;
     }
 
-    public abstract int calculateStockEffect();
+    public abstract int calculateStockEffect();  // Abstract Method
     public abstract String getTransactionType();
 
     @Override
