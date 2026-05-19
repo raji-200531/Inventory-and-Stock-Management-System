@@ -1,0 +1,1 @@
+package com.inventory.stockmanagement.service; public interface AuditFileService { void log(String module, String action, String details); }
