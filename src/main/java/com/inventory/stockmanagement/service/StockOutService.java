@@ -1,0 +1,1 @@
+package com.inventory.stockmanagement.service; import com.inventory.stockmanagement.model.stock.StockOut; import java.util.List; public interface StockOutService { List<StockOut> findAll(); StockOut findById(Long id); StockOut create(StockOut s); StockOut update(Long id, StockOut s); void delete(Long id); }
