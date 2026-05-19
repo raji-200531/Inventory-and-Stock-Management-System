@@ -1,0 +1,1 @@
+package com.inventory.stockmanagement.service; import com.inventory.stockmanagement.model.supplier.Supplier; import java.util.List; public interface SupplierService { List<Supplier> findAll(); List<Supplier> search(String q); Supplier findById(Long id); Supplier save(Supplier s); void delete(Long id); }
