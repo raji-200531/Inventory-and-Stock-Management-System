@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Product</title><link rel="stylesheet" th:href="@{/css/style.css}"><script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="navbar">
+    <div><a class="brand" th:href="@{/dashboard}">Inventory Stock Management</a></div>
+    <div>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/suppliers}">Suppliers</a>
+        <a th:href="@{/stock-in}">Stock In</a>
+        <a th:href="@{/stock-out}">Stock Out</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/report}">Report</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="container">
+<div class="alert success" th:if="${success}" th:text="${success}"></div>
+<div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
+<div class="card"><h1>Edit Product</h1><form th:action="@{/products/edit/{id}(id=${product.id})}" th:object="${product}" method="post"><div class="form-grid"><label>SKU <input type="text" th:field="*{sku}" required></label><label>Name <input type="text" th:field="*{name}" required></label><label>Unit Price <input type="number" step="0.01" th:field="*{unitPrice}" required></label><label>Quantity <input type="number" min="0" th:field="*{quantity}" required></label><label>Reorder Level <input type="number" min="0" th:field="*{reorderLevel}" required></label><label>Category <select th:field="*{categoryId}"><option value="">-- Select --</option><option th:each="c:${categories}" th:value="${c.id}" th:text="${c.name}"></option></select></label><label>Supplier <select th:field="*{supplierId}"><option value="">-- Select --</option><option th:each="s:${suppliers}" th:value="${s.id}" th:text="${s.companyName}"></option></select></label><label>Status <select th:field="*{active}"><option th:value="true">Active</option><option th:value="false">Inactive</option></select></label></div><label>Description <textarea th:field="*{description}" rows="3"></textarea></label><button class="btn">Update</button> <a class="btn light" th:href="@{/products}">Back</a></form></div>
+</div></body></html>
