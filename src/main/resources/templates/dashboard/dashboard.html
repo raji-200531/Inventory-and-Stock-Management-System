@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/main.js}"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <div><a class="brand" th:href="@{/dashboard}">Inventory Stock Management</a></div>
+        <div>
+            <a th:href="@{/dashboard}">Dashboard</a>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/categories}">Categories</a>
+            <a th:href="@{/suppliers}">Suppliers</a>
+            <a th:href="@{/stock-in}">Stock In</a>
+            <a th:href="@{/stock-out}">Stock Out</a>
+            <a th:href="@{/users}">Users</a>
+            <a th:href="@{/report}">Report</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="alert success" th:if="${success}" th:text="${success}"></div>
+        <div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
+
+        <div class="card">
+            <h1>Dashboard</h1>
+            <p>Welcome, <b th:text="${session.loggedUser.username}">user</b>. Role: <span class="badge"
+                    th:text="${session.loggedUser.role}">ADMIN</span></p>
+        </div>
+        <div class="grid">
+            <div class="stat">
+                <h3>Products</h3>
+                <p th:text="${dashboard.productCount}">0</p>
+            </div>
+            <div class="stat">
+                <h3>Categories</h3>
+                <p th:text="${dashboard.categoryCount}">0</p>
+            </div>
+            <div class="stat">
+                <h3>Suppliers</h3>
+                <p th:text="${dashboard.supplierCount}">0</p>
+            </div>
+            <div class="stat">
+                <h3>Stock In</h3>
+                <p th:text="${dashboard.stockInCount}">0</p>
+            </div>
+            <div class="stat">
+                <h3>Stock Out</h3>
+                <p th:text="${dashboard.stockOutCount}">0</p>
+            </div>
+            <div class="stat">
+                <h3>Users</h3>
+                <p th:text="${dashboard.userCount}">0</p>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Low Stock Warning</h2>
+            <p th:if="${#lists.isEmpty(dashboard.lowStockProducts)}">No low stock items.</p>
+            <table th:if="${!#lists.isEmpty(dashboard.lowStockProducts)}">
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Name</th>
+                        <th>Qty</th>
+                        <th>Reorder Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p:${dashboard.lowStockProducts}">
+                        <td th:text="${p.sku}"></td>
+                        <td th:text="${p.name}"></td>
+                        <td><span class="badge warn" th:text="${p.quantity}"></span></td>
+                        <td th:text="${p.reorderLevel}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+
+</html>

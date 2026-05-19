@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register – Inventory Stock Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eeeaf8;
+            position: relative;
+            overflow: hidden;
+            padding: 30px 16px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 520px; height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(110,86,207,0.55) 0%, rgba(110,86,207,0) 70%);
+            bottom: -120px; left: -120px;
+            pointer-events: none;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            width: 480px; height: 480px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(240,160,200,0.55) 0%, rgba(240,160,200,0) 70%);
+            top: -100px; right: -80px;
+            pointer-events: none;
+        }
+
+        .auth-card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 24px;
+            padding: 44px 40px 36px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 40px rgba(80,60,160,0.12);
+        }
+
+        .auth-card h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: #6b6b8d;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .alert-box {
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .alert-error { background: #fee2e2; color: #b91c1c; }
+
+        /* 2-column grid for fields */
+        .fields-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 16px;
+        }
+        .field { margin-bottom: 18px; }
+        .field.full { grid-column: 1 / -1; }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #3a3a5c;
+            margin-bottom: 7px;
+        }
+        .field input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #ddd8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            background: rgba(255,255,255,0.85);
+            color: #1a1a2e;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .field input:focus { border-color: #6e56cf; }
+        .field input::placeholder { color: #aaa8c0; }
+
+        .opt-tag {
+            font-weight: 400;
+            color: #a0a0c0;
+            font-size: 11px;
+            margin-left: 4px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            background: #1a1a3e;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: background .2s, transform .1s;
+        }
+        .btn-primary:hover  { background: #2d2d6e; }
+        .btn-primary:active { transform: scale(0.99); }
+
+        .footer-link {
+            text-align: center;
+            font-size: 13px;
+            color: #6b6b8d;
+            margin-top: 20px;
+        }
+        .footer-link a {
+            color: #6e56cf;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .footer-link a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="auth-card">
+    <h1>Create Account</h1>
+    <p class="auth-subtitle">Register a new staff account to get started</p>
+
+    <div class="alert-box alert-error" th:if="${error}" th:text="${error}"></div>
+    <div id="reg-error" class="alert-box alert-error" style="display:none"></div>
+
+    <form th:action="@{/register}" method="post" onsubmit="return validateRegister()">
+        <div class="fields-grid">
+            <div class="field">
+                <label for="reg-name">Full Name</label>
+                <input id="reg-name" type="text" name="name" th:value="${name}"
+                       placeholder="e.g. Kamal Perera" required>
+            </div>
+            <div class="field">
+                <label for="reg-username">Username</label>
+                <input id="reg-username" type="text" name="username" th:value="${username}"
+                       placeholder="e.g. kamal123" required minlength="3">
+            </div>
+            <div class="field">
+                <label for="reg-email">Email <span class="opt-tag">(optional)</span></label>
+                <input id="reg-email" type="email" name="email" th:value="${email}"
+                       placeholder="e.g. kamal@example.com">
+            </div>
+            <div class="field">
+                <label for="reg-phone">Phone <span class="opt-tag">(optional)</span></label>
+                <input id="reg-phone" type="tel" name="phone" th:value="${phone}"
+                       placeholder="e.g. 0711234567">
+            </div>
+            <div class="field">
+                <label for="reg-password">Password</label>
+                <input id="reg-password" type="password" name="password"
+                       placeholder="Min 6 characters" required minlength="6">
+            </div>
+            <div class="field">
+                <label for="reg-confirm">Confirm Password</label>
+                <input id="reg-confirm" type="password" name="confirmPassword"
+                       placeholder="Repeat password" required>
+            </div>
+        </div>
+        <button class="btn-primary" type="submit">Create Account</button>
+    </form>
+
+    <p class="footer-link">Already have an account? <a th:href="@{/login}">Sign in here</a></p>
+</div>
+
+<script>
+function validateRegister() {
+    var errBox   = document.getElementById('reg-error');
+    errBox.style.display = 'none';
+    var username = document.getElementById('reg-username').value.trim();
+    var phone    = document.getElementById('reg-phone').value.trim();
+    var pwd      = document.getElementById('reg-password').value;
+    var confirm  = document.getElementById('reg-confirm').value;
+
+    function showErr(msg) { errBox.textContent = msg; errBox.style.display = 'block'; return false; }
+
+    if (username.length < 3)
+        return showErr('Username must be at least 3 characters.');
+    if (!/^[a-zA-Z0-9_]+$/.test(username))
+        return showErr('Username may only contain letters, numbers and underscores.');
+    if (phone && !/^[0-9]{10}$/.test(phone))
+        return showErr('Phone number must be exactly 10 digits.');
+    if (pwd.length < 6)
+        return showErr('Password must be at least 6 characters.');
+    if (pwd !== confirm)
+        return showErr('Passwords do not match.');
+    return true;
+}
+</script>
+</body>
+</html>

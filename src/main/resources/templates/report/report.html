@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report</title><link rel="stylesheet" th:href="@{/css/style.css}"><script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="navbar">
+    <div><a class="brand" th:href="@{/dashboard}">Inventory Stock Management</a></div>
+    <div>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/suppliers}">Suppliers</a>
+        <a th:href="@{/stock-in}">Stock In</a>
+        <a th:href="@{/stock-out}">Stock Out</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/report}">Report</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="container">
+<div class="alert success" th:if="${success}" th:text="${success}"></div>
+<div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
+
+<div class="card"><h1>Project Report Summary</h1><p>This project uses Spring Boot MVC and Java file read/write storage.</p><h2>Modules</h2><ul><li>Product Management</li><li>Category Management</li><li>Supplier Management</li><li>Stock In Management</li><li>Stock Out / Sales Management</li><li>User & Role Management</li></ul><h2>OOP Concepts</h2><ul><li>Encapsulation: private fields + getters/setters</li><li>Inheritance: BaseEntity, Person, StockTransaction, AdminUser, StaffUser</li><li>Polymorphism: displayDetails(), calculateStockEffect(), getAccessLevel()</li><li>Abstraction: Service interfaces + abstract classes</li><li>Information Hiding: file logic hidden in repository layer</li></ul><h2>Storage Files</h2><p>Data is saved in <b>data/*.txt</b> files. CRUD actions are logged in <b>data/audit-log.txt</b>.</p></div>
+
+</div></body></html>
