@@ -1,16 +1,193 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Login</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
-<body><div class="container login-box"><div class="card">
-<h1>Inventory Stock Management</h1>
-<p class="footer-note">Spring Boot MVC + File Read/Write Storage</p>
-<div class="alert error" th:if="${error}" th:text="${error}"></div>
-<div class="alert success" th:if="${param.logout}">Logged out successfully.</div>
-<form th:action="@{/login}" method="post">
-<label>Username <input type="text" name="username" placeholder="admin" required></label>
-<label>Password <input type="password" name="password" placeholder="admin123" required></label>
-<button class="btn" type="submit">Login</button>
-</form>
-<p class="footer-note"><b>Admin:</b> admin / admin123<br><b>Staff:</b> staff / staff123</p>
-<p class="footer-note" style="text-align:center;margin-top:12px">Don't have an account? <a th:href="@{/register}">Register here</a></p>
-</div></div></body></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – Inventory Stock Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eeeaf8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background gradient blobs */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 520px; height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(110,86,207,0.55) 0%, rgba(110,86,207,0) 70%);
+            bottom: -120px; left: -120px;
+            pointer-events: none;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            width: 480px; height: 480px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(240,160,200,0.55) 0%, rgba(240,160,200,0) 70%);
+            top: -100px; right: -80px;
+            pointer-events: none;
+        }
+
+        .auth-card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 24px;
+            padding: 44px 40px 36px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 8px 40px rgba(80,60,160,0.12);
+        }
+
+        .auth-card h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: #6b6b8d;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .alert-box {
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .alert-error   { background: #fee2e2; color: #b91c1c; }
+        .alert-success { background: #d1fae5; color: #047857; }
+
+        .field { margin-bottom: 18px; }
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #3a3a5c;
+            margin-bottom: 7px;
+        }
+        .field input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #ddd8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            background: rgba(255,255,255,0.85);
+            color: #1a1a2e;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .field input:focus { border-color: #6e56cf; }
+        .field input::placeholder { color: #aaa8c0; }
+
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            background: #1a1a3e;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: background .2s, transform .1s;
+        }
+        .btn-primary:hover  { background: #2d2d6e; }
+        .btn-primary:active { transform: scale(0.99); }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 22px 0 6px;
+        }
+        .divider span {
+            flex: 1;
+            height: 1px;
+            background: #ddd8f0;
+        }
+        .divider p {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            color: #a0a0c0;
+        }
+
+        .hint-box {
+            background: rgba(240,237,255,0.7);
+            border: 1px solid #ddd8f0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #5a5a80;
+            margin-top: 14px;
+            line-height: 1.7;
+        }
+
+        .footer-link {
+            text-align: center;
+            font-size: 13px;
+            color: #6b6b8d;
+            margin-top: 20px;
+        }
+        .footer-link a {
+            color: #6e56cf;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .footer-link a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="auth-card">
+    <h1>Welcome Back</h1>
+    <p class="auth-subtitle">Sign in to your account to continue</p>
+
+    <div class="alert-box alert-error" th:if="${error}" th:text="${error}"></div>
+    <div class="alert-box alert-success" th:if="${param.logout}">Logged out successfully.</div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="field">
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <button class="btn-primary" type="submit">Sign In</button>
+    </form>
+
+    <div class="divider"><span></span><p>DEFAULT CREDENTIALS</p><span></span></div>
+    <div class="hint-box">
+        <strong>Admin:</strong> admin / admin123<br>
+        <strong>Staff:</strong> staff / staff123
+    </div>
+
+    <p class="footer-link">Don't have an account? <a th:href="@{/register}">Register here</a></p>
+</div>
+</body>
+</html>
