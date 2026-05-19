@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="navbar">
+    <div><a class="brand" th:href="@{/dashboard}">Inventory Stock Management</a></div>
+    <div>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/suppliers}">Suppliers</a>
+        <a th:href="@{/stock-in}">Stock In</a>
+        <a th:href="@{/stock-out}">Stock Out</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/report}">Report</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="alert success" th:if="${success}" th:text="${success}"></div>
+    <div class="alert error"   th:if="${error}"   th:text="${error}"></div>
+    <div class="card">
+        <h1>Edit User</h1>
+        <form th:action="@{/users/edit/{id}(id=${userAccount.id})}" th:object="${userAccount}" method="post"
+              id="editUserForm" onsubmit="return validateUserForm('edit')">
+
+            <div class="form-grid">
+                <label>Name
+                    <input type="text" th:field="*{name}" id="edit-name"
+                           placeholder="e.g. Kamal Perera" required>
+                </label>
+                <label>Username
+                    <input type="text" th:field="*{username}" id="edit-username"
+                           placeholder="e.g. kamal123" required minlength="3">
+                </label>
+                <label>Password
+                    <input type="password" th:field="*{password}" id="edit-password"
+                           placeholder="Leave blank to keep current">
+                </label>
+                <label>Role
+                    <select th:field="*{role}">
+                        <option th:each="r:${roles}" th:value="${r}" th:text="${r}"></option>
+                    </select>
+                </label>
+                <label>Email
+                    <input type="email" th:field="*{email}" id="edit-email"
+                           placeholder="e.g. kamal@example.com">
+                </label>
+                <label>Phone
+                    <input type="tel" th:field="*{phone}" id="edit-phone"
+                           placeholder="e.g. 0711234567">
+                </label>
+            </div>
+
+            <label>Address
+                <textarea th:field="*{address}" rows="3" placeholder="e.g. 123 Main St, Colombo"></textarea>
+            </label>
+            <label>Status
+                <select th:field="*{active}">
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </label>
+
+            <div class="alert error" id="edit-user-error" style="display:none"></div>
+
+            <div class="actions" style="margin-top:6px">
+                <button class="btn" type="submit">Update</button>
+                <a class="btn light" th:href="@{/users}">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function validateUserForm(mode) {
+    var prefix   = mode === 'add' ? 'add' : 'edit';
+    var errBox   = document.getElementById(prefix + '-user-error');
+    errBox.style.display = 'none';
+
+    var name     = document.getElementById(prefix + '-name').value.trim();
+    var username = document.getElementById(prefix + '-username').value.trim();
+    var email    = document.getElementById(prefix + '-email').value.trim();
+    var phone    = document.getElementById(prefix + '-phone').value.trim();
+    var pwdEl    = document.getElementById(prefix + '-password');
+    var pwd      = pwdEl ? pwdEl.value : '';
+
+    function showErr(msg) {
+        errBox.textContent = msg;
+        errBox.style.display = 'block';
+        return false;
+    }
+
+    if (name.length < 2)
+        return showErr('Name must be at least 2 characters.');
+
+    if (username.length < 3)
+        return showErr('Username must be at least 3 characters.');
+
+    if (!/^[a-zA-Z0-9_]+$/.test(username))
+        return showErr('Username may only contain letters, numbers and underscores.');
+
+    if (pwdEl && pwd.length > 0 && pwd.length < 6)
+        return showErr('Password must be at least 6 characters.');
+
+    if (mode === 'add' && pwd.length === 0)
+        return showErr('Password is required.');
+
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        return showErr('Please enter a valid email address.');
+
+    if (phone && !/^[0-9]{10}$/.test(phone))
+        return showErr('Phone number must be exactly 10 digits.');
+
+    return true;
+}
+</script>
+</body>
+</html>

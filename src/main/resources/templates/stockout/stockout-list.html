@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Out</title><link rel="stylesheet" th:href="@{/css/style.css}"><script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="navbar">
+    <div><a class="brand" th:href="@{/dashboard}">Inventory Stock Management</a></div>
+    <div>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/suppliers}">Suppliers</a>
+        <a th:href="@{/stock-in}">Stock In</a>
+        <a th:href="@{/stock-out}">Stock Out</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/report}">Report</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="container">
+<div class="alert success" th:if="${success}" th:text="${success}"></div>
+<div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
+
+<div class="card"><h1>Stock Out / Sales Management</h1><div class="actions"><a class="btn" th:href="@{/stock-out/add}">Add Stock Out</a><form th:action="@{/stock-out}" method="get" class="search-form"><input type="text" name="q" th:value="${q}" placeholder="Search stock out"><button class="btn secondary">Search</button></form></div><table><thead><tr><th>ID</th><th>Product ID</th><th>Qty</th><th>Date</th><th>Reason</th><th>Note</th><th>Actions</th></tr></thead><tbody><tr th:each="s:${stockOuts}"><td th:text="${s.id}"></td><td th:text="${s.productId}"></td><td><span class="badge warn" th:text="${s.quantity}"></span></td><td th:text="${s.transactionDate}"></td><td th:text="${s.reason}"></td><td th:text="${s.note}"></td><td><a class="btn light" th:href="@{/stock-out/edit/{id}(id=${s.id})}">Edit</a> <form class="inline-form" th:action="@{/stock-out/delete/{id}(id=${s.id})}" method="post" onsubmit="return confirmDelete()"><button class="btn danger">Delete</button></form></td></tr></tbody></table></div>
+
+</div></body></html>

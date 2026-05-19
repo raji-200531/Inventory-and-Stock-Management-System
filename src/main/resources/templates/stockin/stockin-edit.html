@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Stock In</title><link rel="stylesheet" th:href="@{/css/style.css}"><script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="navbar">
+    <div><a class="brand" th:href="@{/dashboard}">Inventory Stock Management</a></div>
+    <div>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/categories}">Categories</a>
+        <a th:href="@{/suppliers}">Suppliers</a>
+        <a th:href="@{/stock-in}">Stock In</a>
+        <a th:href="@{/stock-out}">Stock Out</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/report}">Report</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="container">
+<div class="alert success" th:if="${success}" th:text="${success}"></div>
+<div class="alert error" th:if="${param.denied}">Access denied. Admin role is required.</div>
+<div class="card"><h1>Edit Stock In</h1><form th:action="@{/stock-in/edit/{id}(id=${stockIn.id})}" th:object="${stockIn}" method="post"><div class="form-grid"><label>Product <select th:field="*{productId}" required><option value="">-- Select --</option><option th:each="p:${products}" th:value="${p.id}" th:text="${p.sku + ' - ' + p.name + ' (Qty: ' + p.quantity + ')'}"></option></select></label><label>Supplier <select th:field="*{supplierId}" required><option value="">-- Select --</option><option th:each="s:${suppliers}" th:value="${s.id}" th:text="${s.companyName}"></option></select></label><label>Quantity <input type="number" min="1" th:field="*{quantity}" required></label><label>Date <input type="date" th:field="*{transactionDate}" required></label></div><label>Note <textarea th:field="*{note}" rows="3"></textarea></label><button class="btn">Update</button> <a class="btn light" th:href="@{/stock-in}">Back</a></form></div>
+</div></body></html>

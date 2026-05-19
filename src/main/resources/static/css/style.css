@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ───────────────────────────────────────────────
+   DESIGN TOKENS
+─────────────────────────────────────────────── */
+:root {
+    --primary:   #1a1a3e;
+    --primary-h: #2d2d6e;
+    --accent:    #6e56cf;
+    --bg:        #eeeaf8;
+    --bg-card:   rgba(255,255,255,0.72);
+    --border:    #ddd8f0;
+    --text:      #1a1a2e;
+    --muted:     #6b6b8d;
+    --danger:    #b91c1c;
+    --danger-bg: #fee2e2;
+    --success:   #047857;
+    --success-bg:#d1fae5;
+    --warn:      #b45309;
+    --warn-bg:   #fef3c7;
+    --dark:      #1a1a3e;
+}
+
+/* ───────────────────────────────────────────────
+   RESET & BASE
+─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Subtle background blobs – same feel as login page */
+body::before {
+    content: '';
+    position: fixed;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(110,86,207,0.18) 0%, transparent 70%);
+    bottom: -180px; left: -160px;
+    pointer-events: none;
+    z-index: 0;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,160,200,0.20) 0%, transparent 70%);
+    top: -120px; right: -120px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+a { text-decoration: none; color: var(--accent); }
+
+/* ───────────────────────────────────────────────
+   NAVBAR
+─────────────────────────────────────────────── */
+.navbar {
+    background: var(--primary);
+    color: white;
+    padding: 0 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    height: 58px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(26,26,62,0.18);
+}
+
+.navbar a {
+    color: rgba(255,255,255,0.82);
+    margin: 0 6px;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: color .15s;
+}
+.navbar a:hover { color: #fff; }
+
+.brand {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff !important;
+    letter-spacing: -0.3px;
+}
+
+/* ───────────────────────────────────────────────
+   LAYOUT
+─────────────────────────────────────────────── */
+.container {
+    max-width: 1200px;
+    margin: 28px auto;
+    padding: 0 22px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ───────────────────────────────────────────────
+   CARDS
+─────────────────────────────────────────────── */
+.card {
+    background: var(--bg-card);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.65);
+    border-radius: 20px;
+    padding: 26px 28px;
+    box-shadow: 0 4px 24px rgba(80,60,160,0.08);
+    margin-bottom: 20px;
+}
+
+.card h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+.card h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+/* ───────────────────────────────────────────────
+   STAT GRID
+─────────────────────────────────────────────── */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: rgba(255,255,255,0.80);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(80,60,160,0.06);
+    transition: transform .15s, box-shadow .15s;
+}
+.stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(80,60,160,0.12);
+}
+.stat::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(110,86,207,0.10) 0%, transparent 70%);
+}
+
+.stat h3 {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+.stat p {
+    margin: 10px 0 0;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+}
+
+/* ───────────────────────────────────────────────
+   ACTIONS BAR
+─────────────────────────────────────────────── */
+.actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 16px 0;
+}
+
+/* ───────────────────────────────────────────────
+   BUTTONS
+─────────────────────────────────────────────── */
+.btn {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    cursor: pointer;
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    font-size: 13.5px;
+    font-family: inherit;
+    display: inline-block;
+    transition: background .18s, transform .1s;
+    white-space: nowrap;
+}
+.btn:hover   { background: var(--primary-h); }
+.btn:active  { transform: scale(0.98); }
+
+.btn.secondary { background: #4b5563; }
+.btn.secondary:hover { background: #374151; }
+
+.btn.danger { background: var(--danger); }
+.btn.danger:hover { background: #991b1b; }
+
+.btn.light {
+    background: rgba(110,86,207,0.08);
+    color: var(--accent);
+    border: 1px solid var(--border);
+}
+.btn.light:hover { background: rgba(110,86,207,0.15); }
+
+/* ───────────────────────────────────────────────
+   FORM ELEMENTS
+─────────────────────────────────────────────── */
+label {
+    display: block;
+    font-weight: 500;
+    font-size: 13px;
+    color: #3a3a5c;
+    margin: 14px 0 0;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    margin-top: 6px;
+    font: inherit;
+    font-size: 14px;
+    background: rgba(255,255,255,0.85);
+    color: var(--text);
+    outline: none;
+    transition: border-color .18s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+input::placeholder, textarea::placeholder { color: #aaa8c0; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0 16px;
+}
+
+/* ───────────────────────────────────────────────
+   SEARCH FORM
+─────────────────────────────────────────────── */
+.search-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 0;
+}
+.search-form input {
+    margin-top: 0;
+    width: auto;
+    min-width: 230px;
+}
+
+/* ───────────────────────────────────────────────
+   TABLE
+─────────────────────────────────────────────── */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    font-size: 14px;
+}
+
+thead tr {
+    background: rgba(110,86,207,0.07);
+}
+
+th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--muted);
+    border-bottom: 1.5px solid var(--border);
+}
+
+td {
+    padding: 13px 14px;
+    border-bottom: 1px solid rgba(221,216,240,0.5);
+    vertical-align: middle;
+    color: var(--text);
+}
+
+tbody tr:hover { background: rgba(110,86,207,0.035); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* ───────────────────────────────────────────────
+   BADGES
+─────────────────────────────────────────────── */
+.badge {
+    border-radius: 999px;
+    padding: 4px 12px;
+    background: rgba(110,86,207,0.12);
+    color: var(--accent);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .03em;
+    display: inline-block;
+}
+.badge.warn {
+    background: var(--warn-bg);
+    color: var(--warn);
+}
+
+/* ───────────────────────────────────────────────
+   ALERTS
+─────────────────────────────────────────────── */
+.alert {
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 12px 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+.alert.success { background: var(--success-bg); color: var(--success); }
+.alert.error   { background: var(--danger-bg);  color: var(--danger); }
+
+/* ───────────────────────────────────────────────
+   LOGIN BOX (kept for compatibility — now handled inline in login/register)
+─────────────────────────────────────────────── */
+.login-box { max-width: 440px; margin: 80px auto; }
+
+.footer-note {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 16px;
+}
+
+/* ───────────────────────────────────────────────
+   INLINE FORM (delete buttons inside tables)
+─────────────────────────────────────────────── */
+.inline-form { display: inline; }

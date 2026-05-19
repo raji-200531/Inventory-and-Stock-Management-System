@@ -1,0 +1,1 @@
+package com.inventory.stockmanagement.service; import com.inventory.stockmanagement.dto.DashboardDTO; public interface DashboardService { DashboardDTO getDashboard(); }
